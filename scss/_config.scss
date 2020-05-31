@@ -1,0 +1,61 @@
+$primary-color: #7f56fd;
+$secondary-color: #273f59;
+$light-color: #fff;
+$dark-color: #333;
+$text-color: #5d5d5d;
+$accent-color: #7b7b7b;
+
+@mixin res-font($min-font, $max-font, $min-breakpoint, $max-breakpoint) {
+  $avg-font: ($min-font + $max-font) / 2;
+  font-size: #{$min-font}px;
+
+  @media (min-width: #{$min-breakpoint}px) and (max-width: #{$max-breakpoint - 1}px) {
+    font-size: #{$avg-font}px;
+    font-size: calc(
+      #{$min-font}px + (#{$max-font} - #{$min-font}) *
+        (100vw - #{$min-breakpoint}px) /
+        (#{$max-breakpoint} - #{$min-breakpoint})
+    );
+  }
+
+  @media (min-width: #{$max-breakpoint}px) {
+    font-size: #{$max-font}px;
+  }
+}
+
+@function set-text-color($color) {
+  @if (lightness($color) < 60) {
+    @return $light-color;
+  } @else {
+    @return $text-color;
+  }
+}
+
+@mixin set-bgColor($color) {
+  background-color: $color;
+  color: set-text-color($color);
+}
+
+@mixin col-sm {
+  @media (min-width: 576px) {
+    @content;
+  }
+}
+
+@mixin col-md {
+  @media (min-width: 768px) {
+    @content;
+  }
+}
+
+@mixin col-mdPlus {
+  @media (max-width: 767px) {
+    @content;
+  }
+}
+
+@mixin col-lg {
+  @media (min-width: 992px) {
+    @content;
+  }
+}
